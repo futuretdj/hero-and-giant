@@ -62,7 +62,7 @@ function sheet(html, onClick){ const m = $('#modal'); $('#sheet').innerHTML = ht
 function closeSheet(){ $('#modal').classList.remove('on'); }
 
 function splash(){
-  show(`<div class="splash"><img class="art" src="${ART('heroes')}" alt=""><h1 class="title" style="margin-top:18px">${t('title')}</h1><p class="mut" style="font-size:17px;margin:8px 10px 22px">${t('tag')}</p>
+  show(`<div class="splash"><img class="art" src="${ART('heroes')}" alt=""><span class="tape"></span><h1 class="title" style="margin-top:18px">Hero <span class="amp">&amp;</span> Giant</h1><p class="mut" style="font-size:17px;margin:8px 10px 22px">${t('tag')}</p>
   <button class="btn gold wide" id="go">${S.setup ? esc(t('cont')) : t('start')}</button>
   <div class="seg" style="margin:16px auto 0;max-width:200px"><button data-l="en" class="${S.lang==='en'?'on':''}">EN</button><button data-l="ru" class="${S.lang==='ru'?'on':''}">RU</button></div>
   <p class="safety">${t('priv')}</p></div>`);
@@ -73,9 +73,9 @@ function splash(){
 function setup(fromSettings){
   const lv = TX[S.lang].lv;
   show(`<h2 style="font-size:26px;margin:6px 0 4px">${t('setupT')}</h2>
-  <div class="card" style="border-color:#4fb3ff88;margin-top:14px"><div class="lbl" style="margin-top:0;color:var(--hero)">🛡️ ${t('heroL')}</div><input id="hn" maxlength="16" placeholder="${t('heroPh')}" value="${esc(S.hero.name)}">
-  <div class="lbl">${t('age')}: <b id="av">${t('kidAge',{n:S.hero.age})}</b></div><input id="ha" type="range" min="5" max="12" value="${S.hero.age}" style="padding:0;accent-color:#4fb3ff"></div>
-  <div class="card" style="border-color:#ffa64d88"><div class="lbl" style="margin-top:0;color:var(--giant)">🪨 ${t('giantL')}</div><input id="gn" maxlength="16" placeholder="${t('giantPh')}" value="${esc(S.giant.name)}">
+  <div class="card" style="background:#bfe4ff;margin-top:14px"><div class="lbl" style="margin-top:0">🛡️ ${t('heroL')}</div><input id="hn" maxlength="16" placeholder="${t('heroPh')}" value="${esc(S.hero.name)}">
+  <div class="lbl">${t('age')}: <b id="av">${t('kidAge',{n:S.hero.age})}</b></div><input id="ha" type="range" min="5" max="12" value="${S.hero.age}" style="padding:0;accent-color:#1d86d6;box-shadow:none;border:0;background:none"></div>
+  <div class="card" style="background:#ffd0bd"><div class="lbl" style="margin-top:0">🪨 ${t('giantL')}</div><input id="gn" maxlength="16" placeholder="${t('giantPh')}" value="${esc(S.giant.name)}">
   <div class="lbl">${t('lvl')}</div><div class="seg" id="gl">${lv.map((x,i)=>`<button data-v="${i}" class="${S.giant.lvl===i?'on':''}">${x}</button>`).join('')}</div></div>
   <button class="btn gold wide" id="ok">${fromSettings ? t('save') : t('go')}</button><p class="safety">⚠️ ${t('safety')}</p>`);
   $('#ha').oninput = e => $('#av').textContent = t('kidAge',{n:e.target.value});
@@ -97,10 +97,10 @@ function mapScreen(){
     nodes += `<div class="node ${cls}" data-land="${i}"><div class="pic"><img src="${ART(L.img)}" alt="" loading="lazy">${unlocked?'':'<div class="lock">🔒</div>'}</div><div><div class="nm">${i+1}. ${land(i).n}</div><div class="st">${st!==undefined ? '⭐'.repeat(st) + '☆'.repeat(3-st) : unlocked ? '☆☆☆' : ''}</div><div class="bs">👾 ${land(i).b}</div></div></div>`;
   });
   show(`<div class="top"><div><h2 style="font-size:24px">${t('mapT')}</h2><div class="mut" style="font-size:14px">🛡️ ${esc(S.hero.name)} &nbsp;🪨 ${esc(S.giant.name)}</div></div><div class="sp"></div><button class="icon-btn" id="alb">🎴</button><button class="icon-btn" id="set">⚙️</button></div>
-  <div class="stats"><div class="stat"><b>${weekCount()}</b><span>${t('week')}</span></div><div class="stat"><b><span style="color:var(--hero);font-size:22px">${S.duels.h}</span> : <span style="color:var(--giant);font-size:22px">${S.duels.g}</span></b><span>${t('duels')}</span></div><div class="stat"><b>${starsN}<small style="font-size:14px">/24</small></b><span>${t('stars')}</span></div></div>
-  ${doneN === 8 ? `<div class="card" style="text-align:center;border-color:var(--gold)">🌈 ${t('allDone')}</div>` : ''}
+  <div class="stats"><div class="stat"><b>${weekCount()}</b><span>${t('week')}</span></div><div class="stat"><b><span style="color:var(--hero2);font-size:24px">${S.duels.h}</span> : <span style="color:var(--giant2);font-size:24px">${S.duels.g}</span></b><span>${t('duels')}</span></div><div class="stat"><b>${starsN}<small style="font-size:14px">/24</small></b><span>${t('stars')}</span></div></div>
+  ${doneN === 8 ? `<div class="card" style="text-align:center;background:var(--gold)">🌈 ${t('allDone')}</div>` : ''}
   <div class="path">${nodes}</div>
-  <div class="card" style="border-color:#c58bff88"><b>✨ ${t('proT')}</b><div class="mut" style="font-size:14px;margin:6px 0 10px">${t('proP')}</div><button class="btn wide" id="pro">${localStorage.getItem('hg.pro') ? '✓ ' + t('proThanks') : t('proBtn')}</button></div>
+  <div class="card pro"><b>✨ ${t('proT')}</b><div class="mut" style="font-size:14px;margin:6px 0 10px">${t('proP')}</div><button class="btn wide" id="pro">${localStorage.getItem('hg.pro') ? '✓ ' + t('proThanks') : t('proBtn')}</button></div>
   <p class="safety">${t('priv')}</p>`);
   document.querySelectorAll('[data-land]').forEach(n => n.onclick = () => {
     const i = +n.dataset.land;
@@ -119,7 +119,7 @@ function settings(){
   <div class="lbl">${t('lang')}</div><div class="seg"><button data-l="en" class="${S.lang==='en'?'on':''}">English</button><button data-l="ru" class="${S.lang==='ru'?'on':''}">Русский</button></div>
   <div class="lbl">${t('voice')}</div><div class="seg"><button data-vo="1" class="${S.voice?'on':''}">${t('on')}</button><button data-vo="0" class="${!S.voice?'on':''}">${t('off')}</button></div>
   <div class="row" style="margin-top:18px"><button class="btn" style="flex:1" data-x="edit">🛡️🪨 ${t('setupT').replace('?','')}</button></div>
-  <button class="btn wide" style="margin-top:10px;color:#ff9a8a" data-x="reset">${t('reset')}</button>`, e => {
+  <button class="btn wide" style="margin-top:10px;color:#c0392b" data-x="reset">${t('reset')}</button>`, e => {
     const b = e.target.closest('button'); if(!b) return;
     if(b.dataset.l){ S.lang = b.dataset.l; save(); closeSheet(); mapScreen(); }
     if(b.dataset.vo){ S.voice = b.dataset.vo === '1'; save(); closeSheet(); settings(); }
@@ -194,7 +194,7 @@ function timedRound(s){
   let left = s.time, paused = false, started = false;
   const R = 74, C = 2 * Math.PI * R;
   show(`${bossBar()}<div class="rtitle">${roundName(s.k)}</div><div class="rsub">${M.idx+1} / ${M.steps.length}</div>
-  <div class="timer"><svg viewBox="0 0 170 170"><circle cx="85" cy="85" r="${R}" stroke="#ffffff1a" stroke-width="12" fill="none"/><circle id="ring" cx="85" cy="85" r="${R}" stroke="url(#tg)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="0"/><defs><linearGradient id="tg"><stop offset="0" stop-color="#4fb3ff"/><stop offset="1" stop-color="#ffa64d"/></linearGradient></defs></svg><div class="num" id="num">3</div></div>
+  <div class="timer"><svg viewBox="0 0 170 170"><circle cx="85" cy="85" r="${R}" stroke="#f0e2c8" stroke-width="14" fill="none"/><circle id="ring" cx="85" cy="85" r="${R}" stroke="url(#tg)" stroke-width="14" fill="none" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="0"/><defs><linearGradient id="tg"><stop offset="0" stop-color="#3fa9f5"/><stop offset="1" stop-color="#ff6b3d"/></linearGradient></defs></svg><div class="num" id="num">3</div></div>
   ${duoCards(s.pair, s.k, s.time)}
   <div class="ctrl"><button class="btn" id="pz">⏸ ${t('pause')}</button><button class="btn" id="sk">⏭ ${t('skip')}</button></div>`);
   bindQuit();
@@ -281,7 +281,7 @@ function duelScreen(s){
   });
 }
 function confetti(n){
-  const cols = ['#4fb3ff','#ffa64d','#ffd84d','#6be38f','#ff7bc0','#c58bff'];
+  const cols = ['#3fa9f5','#ff6b3d','#ffc93c','#56c271','#ff5c8a','#fffaf0'];
   for(let i=0;i<n;i++){ const c = document.createElement('div'); c.className = 'confetti'; c.style.left = Math.random()*100 + 'vw'; c.style.background = cols[i % cols.length]; c.style.animationDuration = (1.8 + Math.random()*1.6) + 's'; c.style.animationDelay = (Math.random()*.4) + 's'; c.style.borderRadius = i % 3 ? '2px' : '50%'; document.body.appendChild(c); setTimeout(() => c.remove(), 3800); }
 }
 function victory(){
@@ -290,13 +290,13 @@ function victory(){
   S.done[i] = Math.max(S.done[i] || 0, stars); S.sessions.push(Date.now()); S.sessions = S.sessions.slice(-200); save();
   const L = land(i), out = L.o.split('{H}').join(S.hero.name).split('{G}').join(S.giant.name);
   const rate = {h:'ok', g:'ok'};
-  show(`<div class="rtitle" style="font-size:30px;color:var(--gold)">🌈 ${t('victory')}</div>
+  show(`<div class="rtitle" style="font-size:32px">🌈 ${t('victory')}</div>
   <img class="landimg grey" id="vimg" src="${ART(LANDS[i].img)}" alt="" style="margin-top:10px">
   <div class="stars">${[0,1,2].map(k=>`<span style="animation-delay:${.6+k*.35}s">${k < stars ? '⭐' : '☆'}</span>`).join('')}</div>
   <p class="story" style="text-align:center">${esc(out)}</p>
   <div class="card"><b>${t('rateQ')}</b>
-   <div class="lbl" style="color:var(--hero)">🛡️ ${esc(t('rateHero'))}</div><div class="rate" data-w="h">${['easy','ok','hard'].map(x=>`<button data-r="${x}" class="${x==='ok'?'on':''}">${t(x)}</button>`).join('')}</div>
-   <div class="lbl" style="color:var(--giant)">🪨 ${esc(t('rateGiant'))}</div><div class="rate" data-w="g">${['easy','ok','hard'].map(x=>`<button data-r="${x}" class="${x==='ok'?'on':''}">${t(x)}</button>`).join('')}</div></div>
+   <div class="lbl" style="color:var(--hero2)">🛡️ ${esc(t('rateHero'))}</div><div class="rate" data-w="h">${['easy','ok','hard'].map(x=>`<button data-r="${x}" class="${x==='ok'?'on':''}">${t(x)}</button>`).join('')}</div>
+   <div class="lbl" style="color:var(--giant2)">🪨 ${esc(t('rateGiant'))}</div><div class="rate" data-w="g">${['easy','ok','hard'].map(x=>`<button data-r="${x}" class="${x==='ok'?'on':''}">${t(x)}</button>`).join('')}</div></div>
   <button class="btn gold wide" id="tomap">🗺️ ${t('toMap')}</button>`);
   setTimeout(() => { const v = $('#vimg'); if(v) v.classList.remove('grey'); fanfare(); confetti(70); }, 400);
   setTimeout(() => speak(t('victory') + '. ' + out), 900);
